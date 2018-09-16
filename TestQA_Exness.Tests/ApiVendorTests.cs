@@ -8,10 +8,12 @@ namespace TestQA_Exness.Tests
 {
     public class ApiVendorTests
     {
+        private const string BaseApiUrl = "http://localhost:5000";
+        
         [Fact]
         public void ReturnsCorrectDataWhenIdIsExist()
         {
-            var client = new RestClient("https://localhost:5001");
+            var client = new RestClient(BaseApiUrl);
 
             var request = new RestRequest("/api/vendor/get", Method.GET);
             request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdded", ParameterType.GetOrPost);
@@ -25,7 +27,7 @@ namespace TestQA_Exness.Tests
         [Fact]
         public void ReturnHttp200WhenValidId()
         {
-            var client = new RestClient("https://localhost:5001");
+            var client = new RestClient(BaseApiUrl);
 
             var request = new RestRequest("/api/vendor/get", Method.GET);
             request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdded", ParameterType.GetOrPost);
@@ -37,7 +39,7 @@ namespace TestQA_Exness.Tests
         [Fact]
         public void ReturnHttp404WhenInvalidId()
         {
-            var client = new RestClient("https://localhost:5001");
+            var client = new RestClient(BaseApiUrl);
 
             var request = new RestRequest("/api/vendor/get", Method.GET);
             request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdd00", ParameterType.GetOrPost);
