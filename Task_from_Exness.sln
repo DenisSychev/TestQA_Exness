@@ -1,9 +1,9 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestQA_Exness", "TestQA_Exness\TestQA_Exness.csproj", "{98F0A114-7899-4ACB-89DC-7455FA0889BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "TestQA_Exness\API.csproj", "{98F0A114-7899-4ACB-89DC-7455FA0889BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestQA_Exness.Tests", "TestQA_Exness.Tests\TestQA_Exness.Tests.csproj", "{BD3CD453-EA3C-4AFC-91DC-90C3BA952ADD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Tests", "TestQA_Exness.Tests\API.Tests.csproj", "{BD3CD453-EA3C-4AFC-91DC-90C3BA952ADD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
