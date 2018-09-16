@@ -26,6 +26,7 @@ namespace TestQA_Exness
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddDbContext<VendorsContext>(options => options.UseSqlite("Data Source = /Users/athenenoctua/Projects/DB_sqlite/vendors.db"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
