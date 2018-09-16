@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestQA_Exness", "TestQA_Exness\TestQA_Exness.csproj", "{98F0A114-7899-4ACB-89DC-7455FA0889BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestQA_Exness.Tests", "TestQA_Exness.Tests\TestQA_Exness.Tests.csproj", "{BD3CD453-EA3C-4AFC-91DC-90C3BA952ADD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +15,9 @@ Global
 		{98F0A114-7899-4ACB-89DC-7455FA0889BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98F0A114-7899-4ACB-89DC-7455FA0889BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98F0A114-7899-4ACB-89DC-7455FA0889BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD3CD453-EA3C-4AFC-91DC-90C3BA952ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD3CD453-EA3C-4AFC-91DC-90C3BA952ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD3CD453-EA3C-4AFC-91DC-90C3BA952ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD3CD453-EA3C-4AFC-91DC-90C3BA952ADD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
