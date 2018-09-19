@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using API.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
-namespace TestQA_Exness
+namespace API
 {
     public class Startup
     {
@@ -25,8 +20,8 @@ namespace TestQA_Exness
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddDbContext<VendorsContext>(options => options.UseSqlite("Data Source = /Users/athenenoctua/Projects/DB_sqlite/vendors.db"));
+            services.AddMvc();
+            services.AddDbContext<VendorsDbContext>(options => options.UseSqlite("Data Source=/Users/athenenoctua/Projects/DB_sqlite/vendors.db"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
