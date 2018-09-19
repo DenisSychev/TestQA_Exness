@@ -1,25 +1,29 @@
-using System;
 using System.Net;
+using API.Data;
 using RestSharp;
 using Xunit;
-using Xunit.Sdk;
 
 namespace TestQA_Exness.Tests
 {
     public class ApiVendorTests
     {
-        private const string BaseApiUrl = "http://localhost:5000";
-        
+        private const string BaseApiUrl = "https://localhost:5001";
+
+        public ApiVendorTests()
+        {
+            
+        }
+
         [Fact]
         public void ReturnsCorrectDataWhenIdIsExist()
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/api/vendor/get", Method.GET);
-            request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdded", ParameterType.GetOrPost);
+            var request = new RestRequest("/api/vendor/587d6b11-1491-456a-8e5c-d28d99ffdded", Method.GET);
+            //request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdded", ParameterType.GetOrPost);
 
-            IRestResponse response = client.Execute(request);
-            var content = response.Content;
+            var response = client.Execute<Vendor>(request);
+            var content = response.Data.name;
 
             Assert.Contains("Testing corp", content);
         }
@@ -29,10 +33,10 @@ namespace TestQA_Exness.Tests
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/api/vendor/get", Method.GET);
-            request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdded", ParameterType.GetOrPost);
+            var request = new RestRequest("/api/vendor/587d6b11-1491-456a-8e5c-d28d99ffdded", Method.GET);
+            //request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdded", ParameterType.GetOrPost);
             
-            IRestResponse response = client.Execute(request);
+            IRestResponse response = client.Execute<Vendor>(request);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -41,14 +45,14 @@ namespace TestQA_Exness.Tests
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/api/vendor/get", Method.GET);
-            request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdd00", ParameterType.GetOrPost);
+            var request = new RestRequest("/api/vendor/587d6b11-1491-456a-8e5c-d28d99ffdd00", Method.GET);
+            //request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdd00", ParameterType.GetOrPost);
             
-            IRestResponse response = client.Execute(request);
+            var response = client.Execute<Vendor>(request);
             var content = response.Content;
             
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-            Assert.Contains("Vendor 587d6b11-1491-456a-8e5c-d28d99ffdd00 is not found", content);
+            Assert.Contains("Vendor 587d6b11-1491-456a-8e5c-d28d99ffdd00 was not found", content);
         }
     }
 }
