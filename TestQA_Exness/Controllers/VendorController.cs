@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class VendorController : ControllerBase
     {
@@ -15,13 +15,13 @@ namespace API.Controllers
             this.vendorsDbContext = vendorsDbContext;
         }
 
-        
+
         // GET /api/vendor/587d6b11-1491-456a-8e5c-d28d99ffdded
-        [HttpGet("{id}")]
+        [HttpGet]
         public IActionResult Get(string id)
-        {  
+        {
             var vendor = vendorsDbContext.Vendors.FirstOrDefault(v => v.id == id);
-            
+
             if (vendor == null)
                 return NotFound(string.Format("Vendor {0} was not found", id));
 
@@ -40,7 +40,24 @@ namespace API.Controllers
         }
 
 
-        // DELETE(GET) /api/vendor
+        [HttpPost]
+        public IActionResult Delete([FromBody] Vendor v)
+        {
+            var vendor = vendorsDbContext.Vendors.Find(v.id);
+
+            if (vendor == null)
+            {
+                return NotFound(string.Format("Vendor {0} was not found", v.id));
+            }
+
+            vendorsDbContext.Vendors.Remove(vendor);
+            vendorsDbContext.SaveChanges();
+
+            return NoContent();
+        }
+
+
+        /*
         [HttpDelete]
         public IActionResult Delete(string id)
         {
@@ -55,6 +72,6 @@ namespace API.Controllers
             vendorsDbContext.SaveChanges();
 
             return NoContent();
-        }
+        }*/
     }
 }

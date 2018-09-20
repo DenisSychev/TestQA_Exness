@@ -11,6 +11,7 @@ namespace TestQA_Exness.Tests
 
         public ApiVendorTests()
         {
+            var vendor1;
             
         }
 
@@ -61,10 +62,10 @@ namespace TestQA_Exness.Tests
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/api/vendor", Method.POST);
+            var request = new RestRequest("/api/vendor/create", Method.POST);
             request.AddJsonBody(new Vendor
             {
-                id = "587d6b11-1491-456a-8e5c-d28d99ffdd11",
+                id = "587d6b11-1491-456a-8e5c-d28d99ffdd22",
                 name = "New name",
                 rating = 6
             });
@@ -80,10 +81,13 @@ namespace TestQA_Exness.Tests
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/api/vendor", Method.POST);
-            request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdd11", ParameterType.GetOrPost);
+            var request = new RestRequest("/api/vendor/delete", Method.POST);
+            request.AddJsonBody(new Vendor 
+            {
+                id = "587d6b11-1491-456a-8e5c-d28d99ffdd22"
+            });
 
-            var response = client.Execute<Vendor>(request);
+            var response = client.Execute(request);
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
