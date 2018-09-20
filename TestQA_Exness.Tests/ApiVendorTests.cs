@@ -54,5 +54,38 @@ namespace TestQA_Exness.Tests
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
             Assert.Contains("Vendor 587d6b11-1491-456a-8e5c-d28d99ffdd00 was not found", content);
         }
+
+
+        [Fact]
+        public void Create_NewVendor()
+        {
+            var client = new RestClient(BaseApiUrl);
+
+            var request = new RestRequest("/api/vendor", Method.POST);
+            request.AddJsonBody(new Vendor
+            {
+                id = "587d6b11-1491-456a-8e5c-d28d99ffdd11",
+                name = "New name",
+                rating = 6
+            });
+
+            var response = client.Execute<Vendor>(request);
+
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+
+        [Fact]
+        public void DeleteCorrectDataWhenIdIsExist()
+        {
+            var client = new RestClient(BaseApiUrl);
+
+            var request = new RestRequest("/api/vendor", Method.POST);
+            request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdd11", ParameterType.GetOrPost);
+
+            var response = client.Execute<Vendor>(request);
+
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
     }
 }
