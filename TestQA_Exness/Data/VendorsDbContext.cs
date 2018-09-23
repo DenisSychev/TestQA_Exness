@@ -8,21 +8,13 @@ namespace API.Data
         {
 
         }
-        
-        public DbSet<Vendor> Vendors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Vendor>(entity =>
-            {
-                entity.HasKey(vendor => vendor.id_primary);
-                
-                entity.Property(vendor => vendor.id);
-
-                entity.Property(vendor => vendor.name);
-                
-                entity.Property(vendor => vendor.rating);
-            });
+            
         }
+        
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Vendor> Vendors { get; set; }
     }
 }

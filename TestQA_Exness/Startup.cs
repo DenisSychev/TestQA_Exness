@@ -21,7 +21,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<VendorsDbContext>(options => options.UseSqlite("Data Source=/Users/athenenoctua/Projects/DB_sqlite/vendors.db"));
+            services.AddDbContext<VendorsDbContext>(options => options.UseSqlite("Data Source=/Users/athenenoctua/Projects/DB/vendors.db"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
