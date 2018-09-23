@@ -7,11 +7,10 @@ namespace TestQA_Exness.Tests
 {
     public class ApiVendorTests
     {
-        private const string BaseApiUrl = "https://localhost:5001";
+        private const string BaseApiUrl = "https://localhost:5001/api/vendor";
 
         public ApiVendorTests()
         {
-            var vendor1;
             
         }
 
@@ -20,7 +19,7 @@ namespace TestQA_Exness.Tests
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/api/vendor/587d6b11-1491-456a-8e5c-d28d99ffdded", Method.GET);
+            var request = new RestRequest("/get/587d6b11-1491-456a-8e5c-d28d99ffdded", Method.GET);
             //request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdded", ParameterType.GetOrPost);
 
             var response = client.Execute<Vendor>(request);
@@ -34,7 +33,7 @@ namespace TestQA_Exness.Tests
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/api/vendor/587d6b11-1491-456a-8e5c-d28d99ffdded", Method.GET);
+            var request = new RestRequest("/get/587d6b11-1491-456a-8e5c-d28d99ffdded", Method.GET);
             //request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdded", ParameterType.GetOrPost);
             
             IRestResponse response = client.Execute<Vendor>(request);
@@ -46,7 +45,7 @@ namespace TestQA_Exness.Tests
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/api/vendor/587d6b11-1491-456a-8e5c-d28d99ffdd00", Method.GET);
+            var request = new RestRequest("/get/587d6b11-1491-456a-8e5c-d28d99ffdd00", Method.GET);
             //request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdd00", ParameterType.GetOrPost);
             
             var response = client.Execute<Vendor>(request);
@@ -62,7 +61,7 @@ namespace TestQA_Exness.Tests
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/api/vendor/create", Method.POST);
+            var request = new RestRequest("/create", Method.POST);
             request.AddJsonBody(new Vendor
             {
                 id = "587d6b11-1491-456a-8e5c-d28d99ffdd22",
@@ -74,22 +73,33 @@ namespace TestQA_Exness.Tests
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
+        
+        [Fact]
+        public void DeleteCorrectDataWhenIdIsExist_v2()
+        {
+            var client = new RestClient(BaseApiUrl);
 
+            var request = new RestRequest("delete/587d6b11-1491-456a-8e5c-d28d99ffdd22", Method.DELETE);
+
+            var response = client.Execute<Vendor>(request);
+
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
 
         [Fact]
         public void DeleteCorrectDataWhenIdIsExist()
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/api/vendor/delete", Method.POST);
-            request.AddJsonBody(new Vendor 
-            {
-                id = "587d6b11-1491-456a-8e5c-d28d99ffdd22"
-            });
+            var request = new RestRequest("/delete", Method.DELETE);
+            request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdd22", ParameterType.GetOrPost);
 
-            var response = client.Execute(request);
+            var response = client.Execute<Vendor>(request);
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
+
+        
+        
     }
 }

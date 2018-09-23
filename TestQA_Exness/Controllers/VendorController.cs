@@ -16,20 +16,29 @@ namespace API.Controllers
         }
 
 
-        // GET /api/vendor/587d6b11-1491-456a-8e5c-d28d99ffdded
-        [HttpGet]
+        // GET /api/vendor/get/587d6b11-1491-456a-8e5c-d28d99ffdded
+        [HttpGet("{id}")]
         public IActionResult Get(string id)
-        {
+        {  
             var vendor = vendorsDbContext.Vendors.FirstOrDefault(v => v.id == id);
-
+            
             if (vendor == null)
                 return NotFound(string.Format("Vendor {0} was not found", id));
 
-            return Ok(vendor);
+            var categories = vendorsDbContext.Categories
+                .Where(c => c.id == vendor.id)
+                .Select(c => c.name);
+
+            return Ok(new
+            {
+                vendor.id,
+                vendor.name,
+                vendor.rating,
+                categories
+            });
         }
 
-
-        // POST /api/vendor
+        // POST /api/vendor/create
         [HttpPost]
         public IActionResult Create([FromBody] Vendor vendor)
         {
@@ -38,7 +47,23 @@ namespace API.Controllers
 
             return NoContent();
         }
+        
+        // DELETE /api/vendor/delete
+        [HttpDelete("{id}")]
+        public IActionResult Delete(string id)
+        {
+            var vendor = vendorsDbContext.Vendors.FirstOrDefault(v => v.id == id);
 
+            if (vendor == null)
+            {
+                return NotFound(string.Format("Vendor {0} was not found", id));
+            }
+
+            vendorsDbContext.Vendors.Remove(vendor);
+            vendorsDbContext.SaveChanges();
+
+            return NoContent();
+        }
 
         [HttpPost]
         public IActionResult Delete([FromBody] Vendor v)
@@ -55,23 +80,5 @@ namespace API.Controllers
 
             return NoContent();
         }
-
-
-        /*
-        [HttpDelete]
-        public IActionResult Delete(string id)
-        {
-            var vendor = vendorsDbContext.Vendors.Find(id);
-
-            if (vendor == null)
-            {
-                return NotFound(string.Format("Vendor {0} was not found", id));
-            }
-
-            vendorsDbContext.Vendors.Remove(vendor);
-            vendorsDbContext.SaveChanges();
-
-            return NoContent();
-        }*/
     }
 }
