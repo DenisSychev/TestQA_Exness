@@ -17,23 +17,23 @@ namespace API.Controllers
 
 
         // GET /api/vendor/get/587d6b11-1491-456a-8e5c-d28d99ffdded
-        [HttpGet("{id}")]
+        [HttpGet]
         public IActionResult Get(string id)
         {  
-            var vendor = _vendorsDbContext.Vendors.FirstOrDefault(v => v.id == id);
+            var vendor = _vendorsDbContext.Vendors.FirstOrDefault(v => v.Id == id);
             
             if (vendor == null)
                 return NotFound(string.Format("Vendor {0} was not found", id));
 
             var categories = _vendorsDbContext.Categories
-                .Where(c => c.id == vendor.id)
-                .Select(c => c.name);
+                .Where(c => c.Id == vendor.Id)
+                .Select(c => c.Name);
 
             return Ok(new
             {
-                vendor.id,
-                vendor.name,
-                vendor.rating,
+                id = vendor.Id,
+                name = vendor.Name,
+                rating = vendor.Rating,
                 categories
             });
         }
@@ -49,10 +49,10 @@ namespace API.Controllers
         }
         
         // DELETE /api/vendor/delete
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public IActionResult Delete(string id)
         {
-            var vendor = _vendorsDbContext.Vendors.FirstOrDefault(v => v.id == id);
+            var vendor = _vendorsDbContext.Vendors.FirstOrDefault(v => v.Id == id);
 
             if (vendor == null)
             {
@@ -64,21 +64,6 @@ namespace API.Controllers
 
             return NoContent();
         }
-
-        [HttpPost]
-        public IActionResult Delete([FromBody] Vendor v)
-        {
-            var vendor = _vendorsDbContext.Vendors.Find(v.id);
-
-            if (vendor == null)
-            {
-                return NotFound(string.Format("Vendor {0} was not found", v.id));
-            }
-
-            _vendorsDbContext.Vendors.Remove(vendor);
-            _vendorsDbContext.SaveChanges();
-
-            return NoContent();
-        }
     }
+    
 }

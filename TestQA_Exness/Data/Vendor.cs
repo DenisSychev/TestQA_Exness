@@ -3,8 +3,10 @@
 {
     public class Vendor
     {
-        public string id { get; set; }
-        public string name { get; set; }
-        public int rating { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public int Rating { get; set; }
+
+        public Category[] categories { get; set; }
     }
 }
