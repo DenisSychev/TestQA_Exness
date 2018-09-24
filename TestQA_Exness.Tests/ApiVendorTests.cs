@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using API.Data;
 using RestSharp;
@@ -5,21 +6,35 @@ using Xunit;
 
 namespace TestQA_Exness.Tests
 {
-    public class ApiVendorTests
+    public class ApiVendorTests : IClassFixture<ApiVendorTestsFixture>
     {
-        private const string BaseApiUrl = "https://localhost:5001/api/vendor";
+        //private readonly ApiVendorTestsFixture _fixture;
+        private const string BaseApiUrl = "http://localhost:5000/api/vendor";
+        private const string ValidIdVendor = "587d6b11-1491-456a-8e5c-d28d99ffdded";
+        private const string InValidIdVendor = "587d6b11-1491-456a-8e5c-d28d99ffdd00";
+        private const string NewValidIdVendor = "587d6b11-1491-456a-8e5c-d28d99ffdd22";
 
-        public ApiVendorTests()
+        private Vendor _newValidVendor = new Vendor
         {
-            
+            id = "587d6b11-1491-456a-8e5c-d28d99ffdd22",
+            name = "New name",
+            rating = 6
+        };
+        
+        /*
+        public ApiVendorTests(ApiVendorTestsFixture fixture)
+        {
+            _fixture = fixture;
         }
+        */
 
         [Fact]
         public void ReturnsCorrectDataWhenIdIsExist()
         {
+            //var prop = _fixture.Prop;
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/get/587d6b11-1491-456a-8e5c-d28d99ffdded", Method.GET);
+            var request = new RestRequest($"/get/{ValidIdVendor}", Method.GET);
             //request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdded", ParameterType.GetOrPost);
 
             var response = client.Execute<Vendor>(request);
@@ -28,24 +43,26 @@ namespace TestQA_Exness.Tests
             Assert.Contains("Testing corp", content);
         }
 
+        
         [Fact]
         public void ReturnHttp200WhenValidId()
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/get/587d6b11-1491-456a-8e5c-d28d99ffdded", Method.GET);
+            var request = new RestRequest($"/get/{ValidIdVendor}", Method.GET);
             //request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdded", ParameterType.GetOrPost);
             
             IRestResponse response = client.Execute<Vendor>(request);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
+        
 
         [Fact]
         public void ReturnHttp404WhenInvalidId()
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("/get/587d6b11-1491-456a-8e5c-d28d99ffdd00", Method.GET);
+            var request = new RestRequest($"/get/{InValidIdVendor}", Method.GET);
             //request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdd00", ParameterType.GetOrPost);
             
             var response = client.Execute<Vendor>(request);
@@ -62,43 +79,26 @@ namespace TestQA_Exness.Tests
             var client = new RestClient(BaseApiUrl);
 
             var request = new RestRequest("/create", Method.POST);
-            request.AddJsonBody(new Vendor
-            {
-                id = "587d6b11-1491-456a-8e5c-d28d99ffdd22",
-                name = "New name",
-                rating = 6
-            });
+            request.AddJsonBody(_newValidVendor);
 
             var response = client.Execute<Vendor>(request);
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
         
+        
         [Fact]
         public void DeleteCorrectDataWhenIdIsExist_v2()
         {
             var client = new RestClient(BaseApiUrl);
 
-            var request = new RestRequest("delete/587d6b11-1491-456a-8e5c-d28d99ffdd22", Method.DELETE);
+            var request = new RestRequest($"delete/{_newValidVendor.id}", Method.DELETE);
 
             var response = client.Execute<Vendor>(request);
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
-
-        [Fact]
-        public void DeleteCorrectDataWhenIdIsExist()
-        {
-            var client = new RestClient(BaseApiUrl);
-
-            var request = new RestRequest("/delete", Method.DELETE);
-            request.AddParameter("id", "587d6b11-1491-456a-8e5c-d28d99ffdd22", ParameterType.GetOrPost);
-
-            var response = client.Execute<Vendor>(request);
-
-            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-        }
-
+        
         
         
     }

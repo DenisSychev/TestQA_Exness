@@ -8,11 +8,11 @@ namespace API.Controllers
     [ApiController]
     public class VendorController : ControllerBase
     {
-        private readonly VendorsDbContext vendorsDbContext;
+        private readonly VendorsDbContext _vendorsDbContext;
 
         public VendorController(VendorsDbContext vendorsDbContext)
         {
-            this.vendorsDbContext = vendorsDbContext;
+            _vendorsDbContext = vendorsDbContext;
         }
 
 
@@ -20,12 +20,12 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {  
-            var vendor = vendorsDbContext.Vendors.FirstOrDefault(v => v.id == id);
+            var vendor = _vendorsDbContext.Vendors.FirstOrDefault(v => v.id == id);
             
             if (vendor == null)
                 return NotFound(string.Format("Vendor {0} was not found", id));
 
-            var categories = vendorsDbContext.Categories
+            var categories = _vendorsDbContext.Categories
                 .Where(c => c.id == vendor.id)
                 .Select(c => c.name);
 
@@ -42,8 +42,8 @@ namespace API.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Vendor vendor)
         {
-            vendorsDbContext.Add(vendor);
-            vendorsDbContext.SaveChanges();
+            _vendorsDbContext.Add(vendor);
+            _vendorsDbContext.SaveChanges();
 
             return NoContent();
         }
@@ -52,15 +52,15 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            var vendor = vendorsDbContext.Vendors.FirstOrDefault(v => v.id == id);
+            var vendor = _vendorsDbContext.Vendors.FirstOrDefault(v => v.id == id);
 
             if (vendor == null)
             {
                 return NotFound(string.Format("Vendor {0} was not found", id));
             }
 
-            vendorsDbContext.Vendors.Remove(vendor);
-            vendorsDbContext.SaveChanges();
+            _vendorsDbContext.Vendors.Remove(vendor);
+            _vendorsDbContext.SaveChanges();
 
             return NoContent();
         }
@@ -68,15 +68,15 @@ namespace API.Controllers
         [HttpPost]
         public IActionResult Delete([FromBody] Vendor v)
         {
-            var vendor = vendorsDbContext.Vendors.Find(v.id);
+            var vendor = _vendorsDbContext.Vendors.Find(v.id);
 
             if (vendor == null)
             {
                 return NotFound(string.Format("Vendor {0} was not found", v.id));
             }
 
-            vendorsDbContext.Vendors.Remove(vendor);
-            vendorsDbContext.SaveChanges();
+            _vendorsDbContext.Vendors.Remove(vendor);
+            _vendorsDbContext.SaveChanges();
 
             return NoContent();
         }
