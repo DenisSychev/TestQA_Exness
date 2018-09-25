@@ -4,6 +4,8 @@ namespace API.Data
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public int IdVendor { get; set; }
+        public string Id_vendor { get; set; }
+        
+        public Vendor Vendor { get; set; }
     }
 }
