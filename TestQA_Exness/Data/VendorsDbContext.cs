@@ -11,7 +11,10 @@ namespace API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            modelBuilder.Entity<Category>()
+                .HasOne(c => c.Vendor)
+                .WithMany(v => v.Categories)
+                .HasForeignKey(c => c.Id_vendor);
         }
         
         public DbSet<Category> Categories { get; set; }

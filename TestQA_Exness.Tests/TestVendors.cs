@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using API.Data;
 
 namespace TestQA_Exness.Tests
@@ -9,7 +10,7 @@ namespace TestQA_Exness.Tests
             Id = "587d6b11-1491-456a-8e5c-d28d99ffdded",
             Name = "Testing corp",
             Rating = 5,
-            categories = new Category[]{
+            Categories = new List<Category>{
                 TestVendorsCategory.Category1,
                 TestVendorsCategory.Category2
             }
@@ -28,7 +29,7 @@ namespace TestQA_Exness.Tests
             Id = "00000000-0000-0000-0000-000000000d11",
             Name = "Testing corp 3",
             Rating = 3,
-            categories = new Category[]
+            Categories = new List<Category>
             {
                 TestVendorsCategory.Category3,
                 TestVendorsCategory.Category4

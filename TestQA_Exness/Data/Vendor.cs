@@ -1,4 +1,6 @@
-﻿namespace API.Data
+﻿using System.Collections.Generic;
+
+namespace API.Data
 
 {
     public class Vendor
@@ -7,6 +9,6 @@
         public string Name { get; set; }
         public int Rating { get; set; }
 
-        public Category[] categories { get; set; }
+        public List<Category> Categories { get; set; }
     }
 }
