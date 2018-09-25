@@ -1,20 +1,39 @@
-using System;
 using System.Net;
 using API.Data;
 using RestSharp;
+using TestQA_Exness.Tests;
 using Xunit;
 
-namespace TestQA_Exness.Tests
+namespace API.Tests
 {
-
     public class ApiVendorTests : IClassFixture<ApiVendorTestsFixture>
     {
+        private const string GetVendorRequest = "/get";
+        private const string CreateVendorRequest = "/create";
+        private const string DeleteVendorRequest = "/delete";
+
         [Fact]
-        public void ReturnsCorrectDataWhenIdIsExist()
+        public void Returns204StatusWhenDeletedExistVendor()
         {
             var client = new RestClient(TestConstants.BaseApiUrl);
+            var request = new RestRequest(DeleteVendorRequest, Method.DELETE);
+            request.AddParameter("id", $"{TestVendors.Vendor3.Id}", ParameterType.GetOrPost);
 
-            var request = new RestRequest("/get", Method.GET);
+            var response = client.Execute<Vendor>(request);
+
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        [Fact]
+        public void ReturnsCorrectVendorCategoryDataWhenGetVendorByValidId()
+        {
+        }
+
+        [Fact]
+        public void ReturnsCorrectVendorDataWhenGetVendorByValidId()
+        {
+            var client = new RestClient(TestConstants.BaseApiUrl);
+            var request = new RestRequest(GetVendorRequest, Method.GET);
             request.AddParameter("id", $"{TestVendors.Vendor1.Id}", ParameterType.GetOrPost);
 
             var response = client.Execute<Vendor>(request);
@@ -23,62 +42,63 @@ namespace TestQA_Exness.Tests
             Assert.Contains("Testing corp", content);
         }
 
-        
         [Fact]
-        public void ReturnHttp200WhenValidId()
+        public void ReturnsErrorStatusWhenCreateNewVendorWithIncorrectData()
         {
-            var client = new RestClient(TestConstants.BaseApiUrl);
-
-            var request = new RestRequest("/get", Method.GET);
-            request.AddParameter("id", $"{TestVendors.Vendor1.Id}", ParameterType.GetOrPost);
-            
-            IRestResponse response = client.Execute<Vendor>(request);
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
-        
 
         [Fact]
-        public void ReturnHttp404WhenInvalidId()
+        public void ReturnsNotFoundStatusWhenDeletedNotExistVendor()
+        {
+            //or 500 Status?
+        }
+
+
+        [Fact]
+        public void ReturnsNotFoundStatusWhenGetVendorByInvalidId()
         {
             var client = new RestClient(TestConstants.BaseApiUrl);
-
-            var request = new RestRequest("/get", Method.GET);
+            var request = new RestRequest(GetVendorRequest, Method.GET);
             request.AddParameter("id", $"{TestVendors.Vendor2.Id}", ParameterType.GetOrPost);
-            
+
             var response = client.Execute<Vendor>(request);
             var content = response.Content;
-            
+
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
             Assert.Contains($"Vendor {TestVendors.Vendor2.Id} was not found", content);
         }
 
+        [Fact]
+        public void ReturnsNotFoundWhenRequestIncorrect()
+        {
+        }
 
         [Fact]
-        public void Create_NewVendor()
+        public void ReturnsOkStatusWhenApiIsAvailable()
+        {
+        }
+
+        [Fact]
+        public void ReturnsOkStatusWhenCreatedNewVendorWithCorrectData()
         {
             var client = new RestClient(TestConstants.BaseApiUrl);
-
-            var request = new RestRequest("/create", Method.POST);
+            var request = new RestRequest(CreateVendorRequest, Method.POST);
             request.AddJsonBody(TestVendors.Vendor3);
 
             var response = client.Execute<Vendor>(request);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
-        
-        
+
         [Fact]
-        public void DeleteCorrectDataWhenIdIsExist()
+        public void ReturnsOkStatusWhenGetValidVendorById()
         {
             var client = new RestClient(TestConstants.BaseApiUrl);
+            var request = new RestRequest(GetVendorRequest, Method.GET);
+            request.AddParameter("id", $"{TestVendors.Vendor1.Id}", ParameterType.GetOrPost);
 
-            var request = new RestRequest("/delete", Method.DELETE);
-            request.AddParameter("id", $"{TestVendors.Vendor3.Id}", ParameterType.GetOrPost);
-
-            var response = client.Execute<Vendor>(request);
-
-            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+            IRestResponse response = client.Execute<Vendor>(request);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
-        
     }
 }

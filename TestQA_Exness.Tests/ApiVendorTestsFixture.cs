@@ -1,15 +1,23 @@
 using System;
 using API.Data;
-using Microsoft.EntityFrameworkCore;
 using RestSharp;
+using TestQA_Exness.Tests;
 
-namespace TestQA_Exness.Tests
+namespace API.Tests
 {
     public class ApiVendorTestsFixture : IDisposable
     {
-        private readonly VendorsDbContext _vendorsDbContext;
-       
-        public void InsertTestVendor(Vendor vendor)
+        public ApiVendorTestsFixture()
+        {
+            InsertTestVendor(TestVendors.Vendor1);
+        }
+
+        public void Dispose()
+        {
+            DeleteTestVendor(TestVendors.Vendor1.Id);
+        }
+
+        private void InsertTestVendor(Vendor vendor)
         {
             var client = new RestClient(TestConstants.BaseApiUrl);
 
@@ -19,7 +27,7 @@ namespace TestQA_Exness.Tests
             client.Execute<Vendor>(request);
         }
 
-        public void DeleteTestVendor(string id)
+        private void DeleteTestVendor(string id)
         {
             var client = new RestClient(TestConstants.BaseApiUrl);
 
@@ -27,16 +35,5 @@ namespace TestQA_Exness.Tests
 
             client.Execute<Vendor>(request);
         }
-
-        public ApiVendorTestsFixture()
-        {
-            InsertTestVendor(TestVendors.Vendor1);
-        }
-        
-        public void Dispose()
-        {
-            DeleteTestVendor(TestVendors.Vendor1.Id);
-        }
-
     }
 }

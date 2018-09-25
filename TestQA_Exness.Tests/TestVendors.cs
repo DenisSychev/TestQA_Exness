@@ -1,32 +1,32 @@
 using System.Collections.Generic;
 using API.Data;
 
-namespace TestQA_Exness.Tests
+namespace API.Tests
 {
-    public class TestVendors
+    public static class TestVendors
     {
         public static Vendor Vendor1 => new Vendor
         {
-            Id = "587d6b11-1491-456a-8e5c-d28d99ffdded",
+            Id = "00000000-0000-0000-0000-000000000001",
             Name = "Testing corp",
             Rating = 5,
-            Categories = new List<Category>{
+            Categories = new List<Category>
+            {
                 TestVendorsCategory.Category1,
                 TestVendorsCategory.Category2
             }
-
         };
 
         public static Vendor Vendor2 => new Vendor
         {
-            Id = "587d6b11-1491-456a-8e5c-d28d99ffdd00",
+            Id = "00000000-0000-0000-0000-000000000002",
             Name = "Testing corp 2",
             Rating = 4
         };
 
         public static Vendor Vendor3 => new Vendor
         {
-            Id = "00000000-0000-0000-0000-000000000d11",
+            Id = "00000000-0000-0000-0000-000000000003",
             Name = "Testing corp 3",
             Rating = 3,
             Categories = new List<Category>
