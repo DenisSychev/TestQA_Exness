@@ -18,7 +18,7 @@ namespace TestQA_Exness.Tests
             request.AddParameter("id", $"{TestVendors.Vendor1.Id}", ParameterType.GetOrPost);
 
             var response = client.Execute<Vendor>(request);
-            var content = response.Data.Name;
+            var content = response.Content;
 
             Assert.Contains("Testing corp", content);
         }
@@ -63,7 +63,7 @@ namespace TestQA_Exness.Tests
 
             var response = client.Execute<Vendor>(request);
 
-            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
         
         

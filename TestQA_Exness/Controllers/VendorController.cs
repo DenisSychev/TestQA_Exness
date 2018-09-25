@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using API.Data;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace API.Controllers
         }
 
 
-        // GET /api/vendor/get/587d6b11-1491-456a-8e5c-d28d99ffdded
+        // GET /api/vendor/get?id=587d6b11-1491-456a-8e5c-d28d99ffdded
         [HttpGet]
         public IActionResult Get(string id)
         {  
@@ -26,8 +27,7 @@ namespace API.Controllers
                 return NotFound(string.Format("Vendor {0} was not found", id));
 
             var categories = _vendorsDbContext.Categories
-                .Where(c => c.Id == vendor.Id)
-                .Select(c => c.Name);
+                .Where(c => c.Id == vendor.Id);
 
             return Ok(new
             {
@@ -42,10 +42,18 @@ namespace API.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Vendor vendor)
         {
-            _vendorsDbContext.Add(vendor);
-            _vendorsDbContext.SaveChanges();
+            try
+            {
+                _vendorsDbContext.Vendors.Add(vendor);
+                _vendorsDbContext.SaveChanges();
 
-            return NoContent();
+            }
+            catch (Exception e)
+            {
+                
+            }
+            
+            return Ok();
         }
         
         // DELETE /api/vendor/delete
