@@ -8,19 +8,19 @@ rating integer);
 
 
 create table categories (
-id_vendor varchar(36) primary key,
-id varchar(36),
-name varchar(255));
+id varchar(36) primary key,
+name varchar(255),
+id_vendor varchar(36));
 
 
 insert into vendors (id, name, rating)
 values ('587d6b11-1491-456a-8e5c-d28d99ffdded', 'Testing corp', 5);
 
-insert into categories (id_vendor, id, name)
-values ('587d6b11-1491-456a-8e5c-d28d99ffdded', '58bd2c46-6f8f-4474-9ba4-1038730e01d4', 'Testing software');
+insert into categories (id, name, id_vendor)
+values ('58bd2c46-6f8f-4474-9ba4-1038730e01d4', 'Testing software', '587d6b11-1491-456a-8e5c-d28d99ffdded');
 
-insert into categories (id_vendor, id, name)
-values ('587d6b11-1491-456a-8e5c-d28d99ffdded', '1ef43957-05a1-4900-819e-a4d8646188d5', 'System utilities');
+insert into categories (id, name, id_vendor)
+values ('1ef43957-05a1-4900-819e-a4d8646188d5', 'System utilities', '587d6b11-1491-456a-8e5c-d28d99ffdded');
 
 
 .mode line
