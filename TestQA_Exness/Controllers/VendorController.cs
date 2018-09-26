@@ -2,6 +2,7 @@
 using System.Linq;
 using API.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -21,20 +22,22 @@ namespace API.Controllers
         [HttpGet]
         public IActionResult Get(string id)
         {  
-            var vendor = _vendorsDbContext.Vendors.FirstOrDefault(v => v.Id == id);
+            var vendor = _vendorsDbContext.Vendors
+                .Include(v => v.Categories)
+                .FirstOrDefault(v => v.Id == id);
             
             if (vendor == null)
                 return NotFound(string.Format("Vendor {0} was not found", id));
-
-            var categories = _vendorsDbContext.Categories
-                .Where(c => c.Id == vendor.Id);
-
+//
+//            var categories = _vendorsDbContext.Categories
+//                .Where(c => c.Id == vendor.Id);
+//            
             return Ok(new
             {
                 id = vendor.Id,
                 name = vendor.Name,
                 rating = vendor.Rating,
-                categories
+                categories = vendor.Categories
             });
         }
 
