@@ -7,14 +7,18 @@ namespace API.Tests
 {
     public class ApiVendorTestsFixture : IDisposable
     {
+        readonly TestVendorProvider _testVendorProvider;
         public ApiVendorTestsFixture()
         {
-            InsertTestVendor(TestVendors.Vendor1);
+            _testVendorProvider = new TestVendorProvider();
+
+            InsertTestVendor(_testVendorProvider.Vendor1);
         }
 
         public void Dispose()
         {
-            DeleteTestVendor(TestVendors.Vendor1.Id);
+            DeleteTestVendor(_testVendorProvider.Vendor1.Id);
+            DeleteTestVendor(_testVendorProvider.Vendor3.Id);
         }
 
         private void InsertTestVendor(Vendor vendor)
