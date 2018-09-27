@@ -28,10 +28,7 @@ namespace API.Controllers
             
             if (vendor == null)
                 return NotFound(string.Format("Vendor {0} was not found", id));
-//
-//            var categories = _vendorsDbContext.Categories
-//                .Where(c => c.Id == vendor.Id);
-//            
+            
             return Ok(new
             {
                 id = vendor.Id,
@@ -49,7 +46,6 @@ namespace API.Controllers
             {
                 _vendorsDbContext.Vendors.Add(vendor);
                 _vendorsDbContext.SaveChanges();
-
             }
             catch (Exception e)
             {
