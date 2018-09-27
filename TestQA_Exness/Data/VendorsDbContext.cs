@@ -4,6 +4,10 @@ namespace API.Data
 {
     public class VendorsDbContext : DbContext
     {
+        
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Vendor> Vendors { get; set; }
+        
         public VendorsDbContext(DbContextOptions<VendorsDbContext> options):base(options)
         {
 
@@ -11,13 +15,9 @@ namespace API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Category>()
-                .HasOne(c => c.Vendor)
-                .WithMany(v => v.Categories)
-                .HasForeignKey(c => c.Id_vendor);
+            modelBuilder.Entity<Vendor>().HasMany(v => v.Categories);
         }
         
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Vendor> Vendors { get; set; }
+        
     }
 }
