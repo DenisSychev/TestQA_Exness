@@ -16,19 +16,18 @@ namespace API.Controllers
         {
             _vendorsDbContext = vendorsDbContext;
         }
-
-
+        
         // GET /api/vendor/get?id=587d6b11-1491-456a-8e5c-d28d99ffdded
         [HttpGet]
-        public IActionResult Get(string id)
-        {  
+        public IActionResult Get(Guid id)
+        {
             var vendor = _vendorsDbContext.Vendors
                 .Include(v => v.Categories)
                 .FirstOrDefault(v => v.Id == id);
-            
+
             if (vendor == null)
                 return NotFound(string.Format("Vendor {0} was not found", id));
-            
+
             return Ok(new
             {
                 id = vendor.Id,
@@ -49,15 +48,15 @@ namespace API.Controllers
             }
             catch (Exception e)
             {
-                
+                return BadRequest(e);
             }
-            
+
             return Ok();
         }
-        
+
         // DELETE /api/vendor/delete
         [HttpDelete]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(Guid id)
         {
             var vendor = _vendorsDbContext.Vendors.FirstOrDefault(v => v.Id == id);
 
@@ -66,11 +65,19 @@ namespace API.Controllers
                 return NotFound(string.Format("Vendor {0} was not found", id));
             }
 
+            var categories = _vendorsDbContext.Categories
+                .Where(category => category.VendorId == id)
+                .ToList();
+
+            foreach (var category in categories)
+            {
+                _vendorsDbContext.Categories.Remove(category);
+            }
+
             _vendorsDbContext.Vendors.Remove(vendor);
             _vendorsDbContext.SaveChanges();
 
             return NoContent();
         }
     }
-    
 }

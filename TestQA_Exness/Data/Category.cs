@@ -1,9 +1,11 @@
+using System;
+
 namespace API.Data
 {
     public class Category
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
-        public string VendorId { get; set; }
+        public Guid VendorId { get; set; }
     }
 }
